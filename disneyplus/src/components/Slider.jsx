@@ -7,6 +7,7 @@ const IMAGE_BASE_URL = "https://image.tmdb.org/t/p/original"
 const Slider = () => {
     const [trendingMovies, setTrendingMovies] = useState([])
     const elementRef = useRef(null);
+
     useEffect(() => {
         getTrendingMovies();
     }, [])
@@ -34,9 +35,9 @@ const Slider = () => {
 
   return (
     <div>
-        <HiChevronLeft className="hidden md:block absolute mx-8 mt-[150px] w-10 h-10 bg-black bg-opacity-20 hover:bg-opacity-50 rounded-full cursor-pointer transition-all" onClick={() => sliderLeft(elementRef)} />
+        <HiChevronLeft className="hidden md:block absolute mx-8 mt-[150px] xl:mt-[225px] w-10 h-10 bg-black bg-opacity-20 hover:bg-opacity-50 rounded-full cursor-pointer transition-all" onClick={() => sliderLeft(elementRef)} />
 
-        <HiChevronRight className="hidden md:block absolute mx-8 mt-[150px] w-10 h-10 bg-black bg-opacity-20 hover:bg-opacity-50 rounded-full cursor-pointer transition-all right-0" onClick={() => sliderRight(elementRef)}/>
+        <HiChevronRight className="hidden md:block absolute mx-8 mt-[150px] xl:mt-[225px] w-10 h-10 bg-black bg-opacity-20 hover:bg-opacity-50 rounded-full cursor-pointer transition-all right-0" onClick={() => sliderRight(elementRef)}/>
 
         <div className="flex overflow-x-auto w-full px-16 py-4 scrollbar-none transition-all" ref={elementRef}>
             {trendingMovies.map((item) => {
@@ -44,7 +45,7 @@ const Slider = () => {
                     <img key={item.id}
                     src={`${IMAGE_BASE_URL}${item.backdrop_path}`} 
                     alt={item.title} 
-                    className=" min-w-full md:h-[310px] object-cover object-left-top mr-5 rounded-md hover:border-[4px] border-gray-200 transition-all shadow-lg shadow-black"/>      
+                    className=" min-w-full xl:h-[450px] md:h-[310px] object-cover object-left-top mr-5 rounded-md hover:border-[4px] border-gray-200 transition-all shadow-lg shadow-black"/>      
                 )
             })}
         </div>
