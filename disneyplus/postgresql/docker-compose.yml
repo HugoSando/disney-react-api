@@ -1,0 +1,56 @@
+version: '3.9'
+
+services:
+
+  db:
+    image: postgres:alpine3.19
+    environment:
+      POSTGRES_PASSWORD: disney+123
+      POSTGRES_USER: disney
+      POSTGRES_DB: movies
+    volumes:
+      - postgresql_data:/var/lib/postgresql/data
+      - ./movies.sql:/docker-entrypoint-initdb.d/movies.sql
+    ports:
+      - "5454:5432"
+    restart: always
+    shm_size: 128mb
+
+  app:
+    build: ../
+    ports:
+      - "4173:4173"
+
+  api:
+    build: ../node-api
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+    command: npm run dev 
+    volumes:
+      - ../node-api/movies.js:/app/movies.js
+    environment:
+      USERDB: disney
+      HOSTDB: db
+      NAMEDB: movies
+      PASSDB: disney+123
+  
+  api_flask:
+    build: ../flask-api
+    ports:
+      - "5000:5000"
+    depends_on:
+      - db
+    volumes:
+      - ../flask-api/app.py:/app.py
+    environment:
+      USERDB: disney
+      HOSTDB: db
+      NAMEDB: movies
+      PASSDB: disney+123
+      PORT: 5000
+
+volumes:
+  postgresql_data:
+    driver: local
